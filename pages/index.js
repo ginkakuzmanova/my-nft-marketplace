@@ -1,5 +1,5 @@
 export default function Home() {
   return (
-      <main>GINKA</main>
+   <div className={'text-9xl'}>Hello world</div>
   )
 }

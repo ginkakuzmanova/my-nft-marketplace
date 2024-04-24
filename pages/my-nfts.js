@@ -1,1 +1,5 @@
-export default function MyNFTs() {}
+export default function MyNFTs() {
+    return (
+        <div>dfgdffgb</div>
+    )
+}
