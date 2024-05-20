@@ -5,7 +5,7 @@ export default function ButtonGroup({setActive, router}) {
     return hasConnected ? (
         <Button classStyles={'mx-2 rounded-xl'} handleClick={() => {
             setActive('');
-            router.push('/create-nfts');
+            router.push('/create-nft');
         }}>Create</Button>
     ) : <Button classStyles={'mx-2 rounded-xl'} handleClick={() => {
     }}>Connect</Button>

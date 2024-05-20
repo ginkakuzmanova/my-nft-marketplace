@@ -7,5 +7,17 @@ import FooterLinks from './FooterLinks';
 import Banner from './Banner';
 import CreatorCard from './CreatorCard';
 import NFTCard from './NFTCard';
+import Input from './Input';
 
-export { Navbar, Footer, Button, ButtonGroup, MenuItems, FooterLinks, Banner, CreatorCard, NFTCard };
+export {
+    Navbar,
+    Footer,
+    Button,
+    ButtonGroup,
+    MenuItems,
+    FooterLinks,
+    Banner,
+    CreatorCard,
+    NFTCard,
+    Input
+};
