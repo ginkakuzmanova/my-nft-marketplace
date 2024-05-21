@@ -3,6 +3,7 @@ import {create as ipfsHttpClient} from "ipfs-http-client";
 import Web3Modal from 'web3modal';
 import {ethers} from "ethers";
 import {MarketAddress, MarketAddressABI} from "./constants";
+import axios from "axios";
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
@@ -71,12 +72,27 @@ export const NFTProvider = ({ children }) => {
         }
     }
 
+    const fetchNFTs = async () => {
+        const provider = new ethers.providers.JsonRpcProvider();
+        const contract = fetchContract(provider);
+        const data = await contract.fetchMarketItems();
+
+        return await Promise.all(data
+            .map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+                const tokenURI = await contract.getTokenURI(tokenId);
+                const {data: {image, name, description}} = await axios.get(tokenURI);
+                const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ethers');
+
+                return {price, tokenId: tokenId.toNumber(), seller, owner, image, name, description, tokenURI}
+            }));
+    }
+
     useEffect(async () => {
         await checkIfWalletIsConnected();
     }, []);
 
     return (
-        <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, uploadToIPFS, createNFT }}>
+        <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, uploadToIPFS, createNFT, fetchNFTs }}>
             {children}
         </NFTContext.Provider>
     )
