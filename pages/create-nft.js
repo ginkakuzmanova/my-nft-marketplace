@@ -1,14 +1,17 @@
-import { useState, useMemo, useCallback, useContext, useRef } from 'react';
+import {useState, useMemo, useCallback, useContext, useRef} from 'react';
 import {useRouter} from 'next/router';
-import { useDropzone } from 'react-dropzone';
+import {useDropzone} from 'react-dropzone';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
+import {useTheme} from 'next-themes';
 
-import { Button, Input } from '../components';
+import {Button, Input} from '../components';
 import images from '../assets';
+import {NFTContext} from "../context/NFTContext";
 
 export default function CreateNFT({}) {
+    const {uploadToIPFS, createNFT} = useContext(NFTContext);
     const [fileUrl, setFileUrl] = useState(null);
+    const router = useRouter();
     const [formInput, setFormInput] = useState({
         price: '',
         name: '',
@@ -16,7 +19,9 @@ export default function CreateNFT({}) {
     })
     const {theme} = useTheme();
 
-    const onDrop = useCallback(() => {
+    const onDrop = useCallback(async (acceptedFile) => {
+        const url = await uploadToIPFS(acceptedFile[0]);
+        setFileUrl(url);
     }, []);
 
     const {getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject} = useDropzone({
@@ -25,7 +30,7 @@ export default function CreateNFT({}) {
         maxSize: 5000000,
     });
     const fileStyle = useMemo(() => (`dark:bg-nft-black-1 bg-white border dark:border-white border-nft-gray-2 flex flex-col items-center p-5 rounded-sm border-dashed
-        ${isDragActive && 'border-file-active' } ${isDragAccept && 'border-file-accept' } ${isDragReject && 'border-file-reject' }
+        ${isDragActive && 'border-file-active'} ${isDragAccept && 'border-file-accept'} ${isDragReject && 'border-file-reject'}
     `), [isDragActive, isDragAccept, isDragReject]);
 
     return (
@@ -60,29 +65,29 @@ export default function CreateNFT({}) {
                                 </p>
                             </div>
                         </div>
-                        { fileUrl && (
+                        {fileUrl && (
                             <aside>
                                 <div>
-                                    <img src={fileUrl} alt={"asset file"} />
+                                    <img src={fileUrl} alt={"asset file"}/>
                                 </div>
                             </aside>
-                        ) }
+                        )}
                     </div>
                 </div>
 
                 <Input inputType="input" title="Name" placeholder="NFT name" handleClick={(e) => {
-                    setFormInput({ ...formInput, name: e.target.value })
+                    setFormInput({...formInput, name: e.target.value})
                 }}/>
                 <Input inputType="textarea" title="Description" placeholder="Describe your NFT" handleClick={(e) => {
-                    setFormInput({ ...formInput, description: e.target.value })
+                    setFormInput({...formInput, description: e.target.value})
                 }}/>
                 <Input inputType="number" title="Price" placeholder="NFT price" handleClick={(e) => {
-                    setFormInput({ ...formInput, price: e.target.value })
+                    setFormInput({...formInput, price: e.target.value})
                 }}/>
 
                 <div className={'mt-7 w-full flex justify-end'}>
                     <Button classStyles={'rounded-xl'}
-                            handleClick={() => {}}>Create NFT</Button>
+                            handleClick={() => createNFT(formInput, fileUrl, router)}>Create NFT</Button>
                 </div>
             </div>
         </div>
