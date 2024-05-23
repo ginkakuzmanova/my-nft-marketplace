@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const activeStatus = {
     0: '/',
-    1: '/created-nfts',
+    1: '/listed-nfts',
     2: '/my-nfts'
 };
 
