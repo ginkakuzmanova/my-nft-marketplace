@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {NFTContext} from "../context/NFTContext";
-import {Button, Loader} from "../components";
+import {Button, Loader, Modal, PaymentBody} from "../components";
 import images from '../assets';
 import Image from "next/image";
 import {useRouter} from "next/router";
@@ -9,7 +9,7 @@ export default function NftDetails() {
     const {nftCurrency} = useContext(NFTContext);
     const router = useRouter();
     const [nft, setNft] = useState({
-        i: '', tokenId: '', name: '', owner: '', price: '', seller: '', description: ''
+        i: 'nft7', tokenId: '', name: '', owner: '', price: '', seller: '', description: ''
     });
 
     const [isLoading, setIsLoading] = useState(true);
@@ -78,6 +78,7 @@ export default function NftDetails() {
                     <Button classStyles={'rounded-xl'}>Buy for 2 {nftCurrency}</Button>
                 </div>
             </div>
+            {/*<Modal header={'HELLO'} body={<PaymentBody/>} footer={'FOOTER'} handleClose={() => {}}/>*/}
         </div>
     );
 }

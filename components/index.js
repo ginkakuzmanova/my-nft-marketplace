@@ -9,6 +9,9 @@ import CreatorCard from './CreatorCard';
 import NFTCard from './NFTCard';
 import Input from './Input';
 import Loader from './Loader';
+import Modal from './Modal';
+import PaymentBody from './PaymentBody';
+import SearchBar from "./SearchBar";
 
 export {
     Navbar,
@@ -21,5 +24,8 @@ export {
     CreatorCard,
     NFTCard,
     Input,
-    Loader
+    Loader,
+    Modal,
+    PaymentBody,
+    SearchBar
 };

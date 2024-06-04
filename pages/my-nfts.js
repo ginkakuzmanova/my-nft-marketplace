@@ -1,6 +1,6 @@
 import Image  from "next/image";
 import images from '../assets';
-import {Banner, Loader, NFTCard} from "../components";
+import {Banner, Loader, NFTCard, SearchBar} from "../components";
 import {shortenAddress} from "../utils/shortenAddress";
 import {useEffect, useState} from "react";
 import {makeId} from "../utils/makeId";
@@ -10,6 +10,14 @@ const nftsTest = [10,9,8,7,6,5,4,3,2];
 export default function MyNFTs() {
     const currentAccount = '057794nf03677i9549';
     const [isLoading, setIsLoading] = useState(true);
+    const [activeSelect, setActiveSelect] = useState('Recently Added');
+
+    const onHandleSearch = (value) => {
+        const filteredNFT = '';
+    };
+
+    const onClearSearch = () => setActiveSelect('');
+
 
     useEffect(() => {
         const timeout = setTimeout(() => setIsLoading(false), 600);
@@ -47,7 +55,7 @@ export default function MyNFTs() {
                 ) : (
                     <div className={'sm:px-4 p-12 w-full minmd:w-4/5 flexCenter flex-col'}>
                         <div className={'flex-1 w-full flex flex-row sm:flex-col px-4 xs:px-0 minlg:px-8'}>
-                            Searchbar
+                            <SearchBar activeSelect={activeSelect} setActiveSelect={setActiveSelect} handleSearch={onHandleSearch} clearSearch={onClearSearch}/>
                         </div>
                         <div className={'mt-3 w-full flex flex-wrap justify-start md:justify-center'}>
                             {nftsTest.map((item) => (
